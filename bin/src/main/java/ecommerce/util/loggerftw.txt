@@ -1,0 +1,24 @@
+inside: ClienteController.callingForAnotherShit
+Info Method said: inside: ClienteController.callingForDAOError Method said: inside: ClienteController.callingForAnotherShitInfo Method said: sendInfo: ClienteController.callingForDAOError Method said: sendError: ClienteController.callingForTestInfo Method said: sendInfo: ClienteController.callingForDAOError Method said: sendError: ClienteController.callingForTestInfo Method said: sendInfo: ClienteController.callingForDAO
+Error Method said: sendError: ClienteController.callingForTest
+sendInfo: ClienteController.callingForDAO
+sendError: ClienteController.callingForTest
+[2022-11-19 18:23:54] [INFO] sendInfo: ClienteController.callingForDAO
+[2022-11-19 18:23:54] [INFO] sendError: ClienteController.callingForTest
+[2022-11-19 18:26:42] [INFO] sendInfo: ClienteController.callingForDAO
+[2022-11-19 18:26:42] [ERROR] sendError: ClienteController.callingForTest
+[2022-11-19 18:48:47] [INFO] sendInfo: ClienteController.callingForDAO
+[2022-11-19 18:48:47] [INFO] inside DAO content
+[2022-11-19 18:48:47] [ERROR] sendError: ClienteController.callingForTest
+[2022-12-13 21:54:56] [ERROR] Error in method connect:Unable to parse URL jdbc:postgresql://localhost:5432/jdbc:postgresql://localhost:5432/ecommercex
+[2022-12-13 21:54:56] [ERROR] Error in method insertCannot invoke "java.sql.Connection.prepareStatement(String)" because "connection" is null
+[2022-12-13 22:00:47] [ERROR] Error in method insertCannot invoke "java.lang.Long.longValue()" because the return value of "ecommerce.model.Cliente.getId()" is null
+[2022-12-13 22:23:55] [ERROR] Error in method insertERROR: null value in column "id" of relation "cliente" violates not-null constraint
+  Detalhe: Failing row contains (null, Uzucrack Naruto, 032.554.479-46, konohaFans@gmail.com, (85)98505-0412).
+[2022-12-13 22:44:36] [ERROR] Error in method insertERROR: null value in column "id" of relation "cliente" violates not-null constraint
+  Detalhe: Failing row contains (null, Uzucrack Naruto, 032.554.479-46, konohaFans@gmail.com, (85)98505-0412).
+[2022-12-13 22:47:56] [ERROR] Error in method insertERROR: null value in column "id" of relation "cliente" violates not-null constraint
+  Detalhe: Failing row contains (null, Kakaroto, 111.222.333-44, kakarotoDBZ@gmail.com, (85)98505-0412).
+[2022-12-13 22:51:53] [ERROR] Error in method insertCannot invoke "java.lang.Integer.intValue()" because the return value of "ecommerce.model.Cliente.getId()" is null
+[2022-12-13 22:54:55] [ERROR] Error in method insertERROR: duplicate key value violates unique constraint "cliente_pkey"
+  Detalhe: Key (id)=(2) already exists.
