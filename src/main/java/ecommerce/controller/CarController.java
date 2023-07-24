@@ -19,7 +19,7 @@ public class CarController {
     @GetMapping
     @CrossOrigin(origins = "http://localhost:3000")
     public static List<Car> carsList() {
-        return CarService.listAll();
+        return CarService.listAll(); 
     }
 
     @GetMapping("/{id}")
@@ -28,6 +28,7 @@ public class CarController {
     }
 // manufacturer, model, price, speed, maxspeed, transmission, engine, color,
 // gearshift, seats, fuel, consume, urlimage
+
     @DeleteMapping(value = "/{id}")
     public static ResponseEntity<Void> deleteCostumer(@PathVariable long id) {
         return CarService.delete(id);
@@ -39,6 +40,7 @@ public class CarController {
     }
 
 /**
+
     @PutMapping("/update/{id}")
     public static void updateTestZinho(
             @RequestBody CostumerRequestDTO costumerRequestDTO,
@@ -53,7 +55,5 @@ public class CarController {
         CarDAO.update(costumerTest);
     }
     */
-
-
 
 }

@@ -9,14 +9,16 @@ public class Connector {
     private static Connection connection = null;
     private static Statement statement = null;
     private final static String JDBC_DRIVER = "org.postgresql.Driver";
-    public final static String DATABASE_URL = "jdbc:postgresql://localhost:5432/webcars";
-    public final static String user = "postgres";
-    public final static String password = "123456";
+    public final static String DATABASE_URL = "jdbc:postgresql://motty.db.elephantsql.com:5432/snfeccez";
+    //public final static String DATABASE_URL = "postgres://snfeccez:qGE4bx2Qwc1dngF5lSK8o7FxHjeMUhJC@motty.db.elephantsql.com/snfeccez";
+    public final static String user = "snfeccez";
+    public final static String password = "qGE4bx2Qwc1dngF5lSK8o7FxHjeMUhJC";
 
     public static Connection connect() {
         try {
             Class.forName(JDBC_DRIVER);
             connection = DriverManager.getConnection(DATABASE_URL, user, password);
+          //  connection = DriverManager.getConnection(DATABASE_URL);
             statement = connection.createStatement();
         } catch(ClassNotFoundException erroClass) {
             Logger.sendError("Driver não localizado: "+ erroClass);
