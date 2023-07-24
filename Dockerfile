@@ -5,6 +5,6 @@ RUN mvn clean package -DskipTests
 
 # Runtime stage
 FROM openjdk:17-alpine
-COPY --from=build /app/target/myapp.jar /myapp.jar
+COPY --from=build /app/target/artifact.demo-0.0.1-SNAPSHOT.jar /artifact.demo-0.0.1-SNAPSHOT.jar
 EXPOSE 8080
-CMD ["java", "-jar", "/myapp.jar"]
+CMD ["java", "-jar", "/artifact.demo-0.0.1-SNAPSHOT.jar"]
