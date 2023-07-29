@@ -2,6 +2,7 @@ package ecommerce.model;
 
 import ecommerce.dao.CarDAO;
 import ecommerce.dao.Connector;
+import ecommerce.dao.ImageDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
