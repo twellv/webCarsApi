@@ -17,7 +17,8 @@ public class Car {
     private int seats;
     private String fuel;
     private String consume;
-    private String urlimage;
+    private double acceleration;
+    private String description;
 
 
     public Long getId() {
@@ -124,12 +125,20 @@ public class Car {
         this.consume = consume;
     }
 
-    public String getUrlimage() {
-        return urlimage;
+    public double getAcceleration() {
+        return acceleration;
     }
 
-    public void setUrlimage(String urlImage) {
-        this.urlimage = urlImage;
+    public void setAcceleration(double acceleration) {
+        this.acceleration = acceleration;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
@@ -148,7 +157,8 @@ public class Car {
                 ", seats=" + seats +
                 ", fuel='" + fuel + '\'' +
                 ", consume='" + consume + '\'' +
-                ", urlimage='" + urlimage + '\'' +
+                ", acceleration='" + acceleration + '\'' +
+                ", description='" + description + '\'' +
                 '}';
     }
 }

@@ -27,7 +27,7 @@ public class CarController {
         return CarService.serviceReadById(id);
     }
 // manufacturer, model, price, speed, maxspeed, transmission, engine, color,
-// gearshift, seats, fuel, consume, urlimage
+// gearshift, seats, fuel, consume, acceleration, description
 
     @DeleteMapping(value = "/{id}")
     public static ResponseEntity<Void> deleteCostumer(@PathVariable long id) {

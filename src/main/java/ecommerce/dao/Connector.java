@@ -18,7 +18,7 @@ public class Connector {
         try {
             Class.forName(JDBC_DRIVER);
             connection = DriverManager.getConnection(DATABASE_URL, user, password);
-          //  connection = DriverManager.getConnection(DATABASE_URL);
+      //    connection = DriverManager.getConnection(DATABASE_URL);
             statement = connection.createStatement();
         } catch(ClassNotFoundException erroClass) {
             Logger.sendError("Driver não localizado: "+ erroClass);

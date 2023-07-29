@@ -65,6 +65,7 @@ public class Main {
          CarDAO.deleteCar(2);
          CarDAO.readAll().forEach(c -> System.out.println(c));
 
+
          */
 
     }

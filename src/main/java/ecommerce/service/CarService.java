@@ -27,7 +27,8 @@ public class CarService {
             car.setSeats(carRequest.getSeats());
             car.setFuel(carRequest.getFuel());
             car.setConsume(carRequest.getConsume());
-            car.setUrlimage(carRequest.getUrlimage());
+            car.setAcceleration(carRequest.getAcceleration());
+            car.setDescription(carRequest.getDescription());
             CarDAO.create(car);
         }
         System.out.println("service: "+car);
@@ -58,7 +59,8 @@ public class CarService {
             cr1.setSeats(c.getSeats());
             cr1.setFuel(c.getFuel());
             cr1.setConsume(c.getConsume());
-            cr1.setUrlimage(c.getUrlimage());
+            cr1.setAcceleration(c.getAcceleration());
+            cr1.setDescription(c.getDescription());
             carResponseList.add(cr1);
         }
         return carResponseList;
@@ -91,7 +93,8 @@ public class CarService {
             oldCar.setSeats(car.getSeats());
             oldCar.setFuel(car.getFuel());
             oldCar.setConsume(car.getConsume());
-            oldCar.setUrlimage(car.getUrlimage());
+            oldCar.setAcceleration(car.getAcceleration());
+            oldCar.setDescription(car.getDescription());
             isUpdated = CarDAO.update(oldCar);
         }
         if (isUpdated) {

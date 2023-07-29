@@ -21,8 +21,8 @@ public class CarDAO {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement
                     ("INSERT INTO cars"
-                    +"(manufacturer, model, price, speed, maxspeed, transmission, engine, color, gearshift, seats, fuel, consume, urlimage)"
-                    +"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+                    +"(manufacturer, model, price, speed, maxspeed, transmission, engine, color, gearshift, seats, fuel, consume, acceleration, description)"
+                    +"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
             preparedStatement.setString(1, car.getManufacturer());
             preparedStatement.setString(2, car.getModel());
             preparedStatement.setDouble(3, car.getPrice());
@@ -35,7 +35,8 @@ public class CarDAO {
             preparedStatement.setInt(10, car.getSeats());
             preparedStatement.setString(11, car.getFuel());
             preparedStatement.setString(12, car.getConsume());
-            preparedStatement.setString(13, car.getUrlimage());
+            preparedStatement.setDouble(13, car.getAcceleration());
+            preparedStatement.setString(14, car.getDescription());
 
             preparedStatement.executeUpdate();
             preparedStatement.close();
@@ -70,7 +71,8 @@ public class CarDAO {
             car.setSeats(resultSet.getInt("seats"));
             car.setFuel(resultSet.getString("fuel"));
             car.setConsume(resultSet.getString("consume"));
-            car.setUrlimage(resultSet.getString("urlimage"));
+            car.setAcceleration(resultSet.getDouble("acceleration"));
+            car.setDescription(resultSet.getString("description"));
             carsList.add(car);
             }
 
@@ -132,7 +134,8 @@ public class CarDAO {
                 car.setSeats(resultSet.getInt("seats"));
                 car.setFuel(resultSet.getString("fuel"));
                 car.setConsume(resultSet.getString("consume"));
-                car.setUrlimage(resultSet.getString("urlimage"));
+                car.setAcceleration(resultSet.getDouble("acceleration"));
+                car.setDescription(resultSet.getString("description"));
             }
             resultSet.close();
             preparedStatement.close();
@@ -224,7 +227,8 @@ public class CarDAO {
                             +"seats = ?, "
                             +"fuel = ?, "
                             +"consume = ?, "
-                            +"urlimage = ? "
+                            +"acceleration = ?, "
+                            +"description = ? "
                             +"WHERE id = "+car.getId()+";");
             preparedStatement.setString(1, car.getManufacturer());
             preparedStatement.setString(2, car.getModel());
@@ -238,7 +242,8 @@ public class CarDAO {
             preparedStatement.setInt(10, car.getSeats());
             preparedStatement.setString(11, car.getFuel());
             preparedStatement.setString(12, car.getConsume());
-            preparedStatement.setString(13, car.getUrlimage());
+            preparedStatement.setDouble(13, car.getAcceleration());
+            preparedStatement.setString(14, car.getDescription());
 
             int rowsAffected = preparedStatement.executeUpdate();
             isUpdated = rowsAffected > 0;
