@@ -2,8 +2,6 @@ package ecommerce.dao;
 
 import ecommerce.model.Car;
 import ecommerce.util.Logger;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -85,30 +83,6 @@ public class CarDAO {
         return carsList;
     }
 
-    /** public static Car loginCostumer(String model, String password) {
-        Car car = null;
-        Connection connection = Connector.connect();
-        try{
-            PreparedStatement preparedStatement = connection.prepareStatement
-                ("SELECT * FROM car WHERE car.model = '"+model+"' AND car.password = '"+password+"';");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            // name, model
-            if(resultSet.next()) {
-                car = new Costumer();
-                car.setName(resultSet.getString("name"));
-                car.setEmail(resultSet.getString("model"));
-            }
-            resultSet.close();
-            preparedStatement.close();
-            connection.close();
-        } catch (Exception exception) {
-            Logger.sendError(exception.getMessage());
-        }
-    return car;
-
-    } */
-
 
     public static Car readCarById(long id) {
         Car car = null;
@@ -146,21 +120,20 @@ public class CarDAO {
         return car;
     }
 
+    public static List<Car> readCarByModel(String model) {
+        String query = "SELECT * FROM cars WHERE cars.model = '" + model + "';";
+        List<Car> carsList = new ArrayList<>();
 
-    /** public static Car readCarByModel(String model) {
-        Car car = null;
-        Connection connection = Connector.connect();
-        try{
-            PreparedStatement preparedStatement = connection.prepareStatement
-                    ("SELECT * FROM cars WHERE car.model = '"+model+"';");
+        try {
+            Connection connection = Connector.connect();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            if(resultSet.next()) {
-                car = new Car();
-
+            while (resultSet.next()) {
+                Car car = new Car();
                 car.setId(resultSet.getLong("id"));
                 car.setManufacturer(resultSet.getString("manufacturer"));
-                car.setModel(model);
+                car.setModel(resultSet.getString("model"));
                 car.setPrice(resultSet.getDouble("price"));
                 car.setSpeed(resultSet.getInt("speed"));
                 car.setMaxspeed(resultSet.getInt("maxspeed"));
@@ -171,16 +144,57 @@ public class CarDAO {
                 car.setSeats(resultSet.getInt("seats"));
                 car.setFuel(resultSet.getString("fuel"));
                 car.setConsume(resultSet.getString("consume"));
-                car.setUrlimage(resultSet.getString("urlimage"));
+                car.setAcceleration(resultSet.getDouble("acceleration"));
+                car.setDescription(resultSet.getString("description"));
+                carsList.add(car);
             }
-            resultSet.close();
+
             preparedStatement.close();
+            resultSet.close();
             connection.close();
         } catch (Exception exception) {
-            Logger.sendError(exception.getMessage());
+            Logger.sendError("Error in read all cars method: " + exception.getMessage());
         }
-        return car;
-    } */
+        return carsList;
+    }
+
+     public static List<Car> readCarByBrand(String brand) {
+         String query = "SELECT * FROM cars WHERE cars.manufacturer = '" + brand + "';";
+         List<Car> carsList = new ArrayList<>();
+
+         try {
+             Connection connection = Connector.connect();
+             PreparedStatement preparedStatement = connection.prepareStatement(query);
+             ResultSet resultSet = preparedStatement.executeQuery();
+
+             while (resultSet.next()) {
+                 Car car = new Car();
+                 car.setId(resultSet.getLong("id"));
+                 car.setManufacturer(resultSet.getString("manufacturer"));
+                 car.setModel(resultSet.getString("model"));
+                 car.setPrice(resultSet.getDouble("price"));
+                 car.setSpeed(resultSet.getInt("speed"));
+                 car.setMaxspeed(resultSet.getInt("maxspeed"));
+                 car.setTransmission(resultSet.getInt("transmission"));
+                 car.setEngine(resultSet.getInt("engine"));
+                 car.setColor(resultSet.getString("color"));
+                 car.setGearshift(resultSet.getString("gearshift"));
+                 car.setSeats(resultSet.getInt("seats"));
+                 car.setFuel(resultSet.getString("fuel"));
+                 car.setConsume(resultSet.getString("consume"));
+                 car.setAcceleration(resultSet.getDouble("acceleration"));
+                 car.setDescription(resultSet.getString("description"));
+                 carsList.add(car);
+             }
+
+             preparedStatement.close();
+             resultSet.close();
+             connection.close();
+         } catch (Exception exception) {
+             Logger.sendError("Error in read all cars method: " + exception.getMessage());
+         }
+         return carsList;
+     }
 
     public static long getMaxId() {
 
@@ -277,5 +291,29 @@ public class CarDAO {
         }
         return isDeleted;
     }
+
+    /** public static Car loginCostumer(String model, String password) {
+     Car car = null;
+     Connection connection = Connector.connect();
+     try{
+     PreparedStatement preparedStatement = connection.prepareStatement
+     ("SELECT * FROM car WHERE car.model = '"+model+"' AND car.password = '"+password+"';");
+     ResultSet resultSet = preparedStatement.executeQuery();
+
+     // name, model
+     if(resultSet.next()) {
+     car = new Costumer();
+     car.setName(resultSet.getString("name"));
+     car.setEmail(resultSet.getString("model"));
+     }
+     resultSet.close();
+     preparedStatement.close();
+     connection.close();
+     } catch (Exception exception) {
+     Logger.sendError(exception.getMessage());
+     }
+     return car;
+
+     } */
 
 }

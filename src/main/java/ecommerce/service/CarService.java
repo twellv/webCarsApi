@@ -66,6 +66,25 @@ public class CarService {
         return carResponseList;
     }
 
+    public static ResponseEntity<List<Car>> listByModel(String model) {
+
+        List<Car> carResponseList = CarDAO.readCarByModel(model);
+        if (carResponseList.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(carResponseList);
+    }
+
+    public static ResponseEntity<List<Car>> listByBrand(String brand) {
+
+        List<Car> carResponseList = CarDAO.readCarByBrand(brand);
+        if (carResponseList.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(carResponseList);
+    }
+
+
     public static ResponseEntity<Car> serviceReadById(Long id){
         Car car = CarDAO.readCarById(id);
 

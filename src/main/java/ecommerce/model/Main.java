@@ -1,8 +1,10 @@
 package ecommerce.model;
 
+import ecommerce.controller.CarController;
 import ecommerce.dao.CarDAO;
 import ecommerce.dao.Connector;
 import ecommerce.dao.ImageDAO;
+import ecommerce.service.CarService;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

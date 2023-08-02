@@ -26,8 +26,16 @@ public class CarController {
     public static ResponseEntity<Car> carsById(@PathVariable long id) {
         return CarService.serviceReadById(id);
     }
-// manufacturer, model, price, speed, maxspeed, transmission, engine, color,
-// gearshift, seats, fuel, consume, acceleration, description
+
+    @GetMapping("/brand/{brand}")
+    public static ResponseEntity<List<Car>> carsByBrand(@PathVariable String brand) {
+        return CarService.listByBrand(brand);
+    }
+
+    @GetMapping("/model/{model}")
+    public static ResponseEntity<List<Car>> carsByModel(@PathVariable String model) {
+        return CarService.listByModel(model);
+    }
 
     @DeleteMapping(value = "/{id}")
     public static ResponseEntity<Void> deleteCostumer(@PathVariable long id) {
@@ -38,22 +46,5 @@ public class CarController {
     public static ResponseEntity<?> update(@RequestBody Car car, @PathVariable long id) {
         return CarService.update(car, id);
     }
-
-/**
-
-    @PutMapping("/update/{id}")
-    public static void updateTestZinho(
-            @RequestBody CostumerRequestDTO costumerRequestDTO,
-            @PathVariable long id) {
-        Costumer costumerTest = CarDAO.read(id);
-
-        // name, email, password, whatsapp, cpf, birth
-        costumerTest.setName(costumerRequestDTO.getName());
-        costumerTest.setEmail(costumerRequestDTO.getEmail());
-        costumerTest.setPassword(costumerRequestDTO.getPassword());
-        costumerTest.setWhatsapp(costumerRequestDTO.getWhatsapp());
-        CarDAO.update(costumerTest);
-    }
-    */
 
 }
