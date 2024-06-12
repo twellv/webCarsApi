@@ -1121,3 +1121,45 @@ Files in Java might be tricky, but it is fun enough![2023-01-21 19:51:04] [ERROR
 [2023-07-16 11:15:04] [INFO] ... EXITING ...
 [2023-07-16 11:17:17] [INFO] ...UPDATE...
 [2023-07-16 11:17:17] [INFO] ... EXITING ...
+[2024-05-26 08:29:55] [ERROR] Error in getCostumerIdERRO: não existe a relação "cars"
+  Posição: 16
+[2024-05-26 08:54:26] [ERROR] Error in getCostumerIdERRO: não existe a relação "cars"
+  Posição: 16
+[2024-05-26 08:54:38] [ERROR] Error in getCostumerIdERRO: não existe a relação "cars"
+  Posição: 16
+[2024-05-26 09:58:24] [ERROR] Error in getCostumerIdERRO: não existe a relação "cars"
+  Posição: 16
+[2024-05-26 09:58:24] [ERROR] Error in getCostumerIdERRO: não existe a relação "cars"
+  Posição: 16
+[2024-05-27 09:41:58] [ERROR] Error in getCostumerIdERRO: não existe a relação "cars"
+  Posição: 16
+[2024-05-27 09:45:56] [ERROR] Error in getCostumerIdERRO: não existe a relação "cars"
+  Posição: 16
+[2024-05-27 09:47:34] [ERROR] Error in getCostumerIdERRO: não existe a relação "cars"
+  Posição: 16
+[2024-05-27 09:50:03] [ERROR] Error in getCostumerIdERRO: não existe a relação "cars"
+  Posição: 16
+[2024-05-27 09:53:18] [ERROR] Error in getCostumerIdERRO: não existe a relação "cars"
+  Posição: 16
+[2024-05-27 10:08:24] [ERROR] Error in getCostumerIdERRO: não existe a relação "cars"
+  Posição: 16
+[2024-05-27 10:19:25] [ERROR] Error in getCostumerIdERRO: não existe a relação "cars"
+  Posição: 16
+[2024-05-27 10:38:17] [ERROR] Error in getCostumerIdERRO: não existe a relação "cars"
+  Posição: 16
+[2024-05-27 11:03:02] [ERROR] Error in getCostumerIdERRO: não existe a relação "cars"
+  Posição: 16
+[2024-05-30 15:29:00] [ERROR] Error in getCostumerIdERROR: relation "users" does not exist
+  Posição: 16
+[2024-05-30 15:30:00] [ERROR] Error in getCostumerIdERROR: relation "users" does not exist
+  Posição: 16
+[2024-05-30 15:31:18] [ERROR] Error in getCostumerIdERROR: relation "users_test" does not exist
+  Posição: 16
+[2024-06-08 14:55:40] [ERROR] Nenhum valor especificado para parâmetro 1.
+[2024-06-08 15:40:54] [ERROR] Nenhum valor especificado para parâmetro 1.
+[2024-06-08 15:42:27] [ERROR] Nenhum valor especificado para parâmetro 1.
+[2024-06-09 11:14:27] [ERROR] Error in method connect:A tentativa de conexão falhou.
+[2024-06-09 11:14:27] [ERROR] Error in readCarById method:Cannot invoke "java.sql.Connection.prepareStatement(String)" because "connection" is null
+[2024-06-09 14:56:51] [ERROR] Error in method connect:A tentativa de conexão falhou.
+[2024-06-09 15:47:11] [ERROR] Error in method connect:A tentativa de conexão falhou.
+[2024-06-10 19:48:05] [ERROR] Error in method connect:A tentativa de conexão falhou.

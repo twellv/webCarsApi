@@ -2,49 +2,75 @@ package ecommerce.controller;
 
 import ecommerce.model.Car;
 import ecommerce.service.CarService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/cars")
 public class CarController {
 
-    @PostMapping
-    public static ResponseEntity<?> addCar(@RequestBody Car car) {
-        return CarService.create(car);
+    CarService carService = new CarService();
+
+    @PostMapping("/add")
+    public ResponseEntity<Car> addCar(@RequestBody Car car) {
+        HashMap<Car, Boolean> saveCar = carService.create(car);
+        Car createdCar = null;
+        Boolean verified = false;
+
+        // essa logica ta errada
+
+        if (!saveCar.isEmpty()) {
+            Map.Entry<Car, Boolean> entry = saveCar.entrySet().iterator().next();
+            createdCar = entry.getKey();
+            verified = entry.getValue();
+        }
+
+        return verified ?
+            ResponseEntity.status(HttpStatus.OK).body(createdCar):
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
-    @GetMapping
+    @GetMapping("/list")
     @CrossOrigin(origins = "http://localhost:3000")
-    public static List<Car> carsList() {
-        return CarService.listAll(); 
+    public ResponseEntity<List<Car>> carsList() {
+        List<Car> list = carService.listAll();
+
+        return (list == null || list.isEmpty() )?
+            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build():
+            ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
     @GetMapping("/{id}")
-    public static ResponseEntity<Car> carsById(@PathVariable long id) {
-        return CarService.serviceReadById(id);
-    }
+    public ResponseEntity<Car> carsById(@PathVariable long id) {
+        Car read = carService.readById(id);
 
-    @GetMapping("/brand/{brand}")
-    public static ResponseEntity<List<Car>> carsByBrand(@PathVariable String brand) {
-        return CarService.listByBrand(brand);
-    }
-
-    @GetMapping("/model/{model}")
-    public static ResponseEntity<List<Car>> carsByModel(@PathVariable String model) {
-        return CarService.listByModel(model);
-    }
-
-    @DeleteMapping(value = "/{id}")
-    public static ResponseEntity<Void> deleteCostumer(@PathVariable long id) {
-        return CarService.delete(id);
+        return read == null?
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).build():
+                ResponseEntity.status(HttpStatus.OK).body(read);
     }
 
     @PutMapping("/{id}")
-    public static ResponseEntity<?> update(@RequestBody Car car, @PathVariable long id) {
-        return CarService.update(car, id);
+    public ResponseEntity<?> update(@RequestBody Car car, @PathVariable long id) {
+        boolean verifyUpdate = carService.update(car, id);
+
+        return !verifyUpdate?
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).build():
+                ResponseEntity.status(HttpStatus.OK).build();
     }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable long id) {
+        boolean verifyDeletion = carService.delete(id);
+
+        return !verifyDeletion?
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).build():
+                ResponseEntity.status(HttpStatus.OK).build();
+    }
+
 
 }

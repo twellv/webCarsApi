@@ -1,84 +1,84 @@
 package ecommerce;
 
 import ecommerce.dao.CarDAO;
-
 import ecommerce.dao.Connector;
-import ecommerce.util.FormatDateSimple;
-import org.junit.Test;
+import ecommerce.model.Car;
+import ecommerce.service.CarService;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
-import static org.junit.Assert.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CarDAOTest {
-/**
-    @Test
-    public void testCostumerDAO() throws SQLException{
-        Connection connection = Connector.connect();
 
-        PreparedStatement preparedStatement = connection.prepareStatement(
-        "DELETE FROM cars WHERE email='tilRammstein@gmail.com' AND cpf='33311-48';");
-        preparedStatement.execute();
-        preparedStatement.close();
+    CarDAO carDAO = new CarDAO();
 
-        PreparedStatement preparedStatement2 = connection.prepareStatement(
-                "DELETE FROM costumer WHERE email='chuckNoia@gmail.com' AND cpf='951753314-88';");
-        preparedStatement2.execute();
-        preparedStatement2.close();
-
-        connection.close();
-
-        String newDate = "1984-12-27";
-        java.util.Date utilDate = FormatDateSimple.formatoDateSimples(newDate);
-        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-
-        //nome, email, senha, whatsapp, cpf, nascimento
-        Costumer costumer = new Costumer();
-        costumer.setName("Til");
-        costumer.setEmail("tilRammstein@gmail.com");
-        costumer.setPassword("rammstein123");
-        costumer.setWhatsapp("85 9333-6666");
-        costumer.setCpf("33311-48");
-        costumer.setBirth(sqlDate);
-        CarDAO.create(costumer);
-
-        Costumer readCostumer = CarDAO.readCarByModel("tilRammstein@gmail.com");
-        assertNotNull(readCostumer);
-
-        assertEquals(costumer.getName(), readCostumer.getName());
-        assertEquals(costumer.getEmail(), readCostumer.getEmail());
-        assertEquals(costumer.getPassword(), readCostumer.getPassword());
-        assertEquals(costumer.getWhatsapp(), readCostumer.getWhatsapp());
-        assertEquals(costumer.getCpf(), readCostumer.getCpf());
-        assertEquals(costumer.getBirth(), readCostumer.getBirth());
-
-        readCostumer.setName("Chuck Noia");
-        readCostumer.setEmail("chuckNoia@gmail.com");
-        readCostumer.setPassword("chuck123");
-        readCostumer.setWhatsapp("(85) 991274-1596");
-        readCostumer.setCpf("951753314-88");
-
-        String newBirth = "1990-12-20";
-        java.util.Date newUtilDate = FormatDateSimple.formatoDateSimples(newBirth);
-        java.sql.Date sqlDateBirth = new java.sql.Date(newUtilDate.getTime());
-        costumer.setBirth(sqlDateBirth);
-        CarDAO.update(readCostumer);
-
-        Costumer costumerAtt = CarDAO.read(readCostumer.getId());
-
-        //name, email, password, whatsapp, cpf, birth
-        assertEquals(readCostumer.getName(), costumerAtt.getName());
-        assertEquals(readCostumer.getEmail(), costumerAtt.getEmail());
-        assertEquals(readCostumer.getPassword(), costumerAtt.getPassword());
-        assertEquals(readCostumer.getWhatsapp(), costumerAtt.getWhatsapp());
-        assertEquals(readCostumer.getCpf(), costumerAtt.getCpf());
-        assertEquals(readCostumer.getBirth(), costumerAtt.getBirth());
-
-        CarDAO.deleteCostumer(costumerAtt.getId());
-        Costumer deletedCostumer = CarDAO.read(costumerAtt.getId());
-        assertNull(deletedCostumer);
+    @BeforeEach
+    public void setUp() {
+        try(Connection connection = Connector.connect_test_env();PreparedStatement preparedStatement = connection.prepareStatement
+                ("DELETE FROM car WHERE car.manufacturer ='DataAccess2' AND car.model ='daoSEDAN2';")){
+            preparedStatement.executeUpdate();
+        } catch(SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
     }
-*/
+
+    @Test
+    void shouldCreateCarACar() {
+        CarService.TEST_ENVIRONMENT = true;
+
+        // LIST
+        List<Car> list = carDAO.listAll();
+        Assertions.assertNotNull(list, "list should be not null");
+
+        // CREATE
+            Car car = new Car("DataAccess2","daoSEDAN2");
+            HashMap<Car, Boolean> savedCar = carDAO.createCar(car);
+            Map.Entry<Car, Boolean> entry = savedCar.entrySet().iterator().next();
+            Assertions.assertEquals(entry.getKey().getManufacturer(), car.getManufacturer(), "Assert that car was saved on DB");
+            Assertions.assertEquals(entry.getKey().getModel(), car.getModel(), "Assert that car was saved on DB");
+
+        // READ-ID
+            Car readCar = carDAO.readCarById(entry.getKey().getId());
+            Assertions.assertNotNull(readCar, "Try to find a car was successfully");
+
+        // UPDATE
+            readCar.setManufacturer("newDataAccess2");
+            readCar.setModel("newdaoSEDAN2");
+            boolean isUpToDate = carDAO.update(readCar);
+            Assertions.assertTrue(isUpToDate, "Assure that update process was done");
+            Assertions.assertNotNull(carDAO.readCarById(readCar.getId()), "Car is available on database");
+
+        // DELETE
+            Assertions.assertTrue(carDAO.delete(readCar.getId()), "Should return true if was deleted");
+            Assertions.assertNull(carDAO.readCarById(readCar.getId()), "This car wasnt found in database");
+
+        CarService.TEST_ENVIRONMENT = false;
+    }
+
+
+    @Test
+    @DisplayName("Should return the maximum ID from the Car table")
+    void getMaxId(){
+        CarService.TEST_ENVIRONMENT = true;
+
+        Car car = new Car("DataAccess2", "daoSEDAN2");
+        HashMap<Car, Boolean> savedCar = carDAO.createCar(car);
+        Map.Entry<Car, Boolean> entry = savedCar.entrySet().iterator().next();
+        Assertions.assertNotNull(savedCar, "savedCar should be not null");
+
+        long maxId = carDAO.getMaxId();
+        Assertions.assertTrue(maxId > 0, "The maximum ID should be greater than 0");
+        Assertions.assertEquals(entry.getKey().getId(), maxId, "These 2 values has to be the same");
+
+        CarService.TEST_ENVIRONMENT = false;
+    }
+
 }

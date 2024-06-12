@@ -8,45 +8,35 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Logger {
-    public static final String FILE_PATH ="C:\\Users\\Twellv\\IdeaProjects\\ecommerceX-backend\\loggerftw.txt";
+    public static final String FILE_PATH ="C:\\Users\\Twellv\\IdeaProjects\\webCarsApi\\loggerftw.txt";
 
     private static boolean creatingLogger() {
-     boolean b = false;
+     boolean verify = false;
 
         try{
             File myMainLogger = new File(FILE_PATH);
-            if(!myMainLogger.exists()) {
-                myMainLogger.createNewFile(); // true if the named file does not exist
-                System.out.println("File created: "+myMainLogger.getName());
-            }
-        } catch(IOException exception) {
-            exception.getMessage();
-            exception.printStackTrace();
+            verify = myMainLogger.createNewFile();
+        } catch(IOException ex) {
+            System.err.println(ex.getMessage());
         }
-     return b;
+     return verify;
     }
 
     private static void saveWhatIWrote(String string){
-        try {
-            FileWriter fileWriter = new FileWriter(FILE_PATH, true);
-            BufferedWriter myWriter = new BufferedWriter(fileWriter);
+        try (FileWriter fileWriter = new FileWriter(FILE_PATH, true);
+                BufferedWriter myWriter = new BufferedWriter(fileWriter)){
 
             myWriter.write(string);
             myWriter.newLine();
-
-            myWriter.close();
-            fileWriter.close();
-        } catch(IOException exception){
-            exception.printStackTrace();
-            exception.getMessage();
+        } catch(IOException ex){
+            System.err.println(ex.getMessage());
         }
     }
 
     private static String criandoTimeStamp() {
         LocalDateTime localDateTime =  LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String timeStamp = localDateTime.format(formatter);
-        return timeStamp;
+        return localDateTime.format(formatter);
     }
 
     public static void sendInfo(String string) {

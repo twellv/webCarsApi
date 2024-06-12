@@ -54,11 +54,11 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- JUnit 4 -->
+		<!-- JUnit 5 -->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter</artifactId>
-			<version>5.9.2</version>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>5.8.2</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -66,6 +66,7 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 
 	</dependencies>
 
