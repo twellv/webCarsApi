@@ -67,7 +67,7 @@ Você pode executar a aplicação de duas maneiras: utilizando o Maven ou Docker
 
 ### Testando a API
 
-Para testar os endpoints da API, você pode utilizar o Postman. Uma coleção de exemplo pode ser encontrada no repositório (`WebCars.postman_collection.json`).
+Para testar os endpoints da API, você pode utilizar o Postman. Uma coleção de exemplo pode ser encontrada no repositório (`[WebCars.postman_collection.json](https://documenter.postman.com/preview/14054053-7a2f674e-8901-4951-bef4-01cbe15e658f?environment=&versionTag=latest&apiName=CURRENT&version=latest&documentationLayout=classic-double-column&documentationTheme=light&logo=https%3A%2F%2Fres.cloudinary.com%2Fpostman%2Fimage%2Fupload%2Ft_team_logo%2Fv1%2Fteam%2Fanonymous_team&logoDark=https%3A%2F%2Fres.cloudinary.com%2Fpostman%2Fimage%2Fupload%2Ft_team_logo%2Fv1%2Fteam%2Fanonymous_team&right-sidebar=303030&top-bar=FFFFFF&highlight=FF6C37&right-sidebar-dark=303030&top-bar-dark=212121&highlight-dark=FF6C37)`).
 
 ### Executando Testes
 
