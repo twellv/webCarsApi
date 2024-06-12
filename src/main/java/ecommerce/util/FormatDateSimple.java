@@ -11,8 +11,8 @@ public class FormatDateSimple {
         Date date = null;
         try {
             date = sdf.parse(string);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        } catch (ParseException ex) {
+            System.err.println(ex.getMessage());
         }
         return date;
     }

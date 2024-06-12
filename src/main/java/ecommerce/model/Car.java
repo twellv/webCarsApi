@@ -1,7 +1,5 @@
 package ecommerce.model;
 
-import java.util.Date;
-
 public class Car {
 
     private Long id;
@@ -20,6 +18,14 @@ public class Car {
     private double acceleration;
     private String description;
 
+    public Car() {
+
+    }
+
+    public Car(String manufacturer, String model) {
+        this.manufacturer = manufacturer;
+        this.model = model;
+    }
 
     public Long getId() {
         return id;
