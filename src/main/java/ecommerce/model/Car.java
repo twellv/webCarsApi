@@ -17,6 +17,7 @@ public class Car {
     private String consume;
     private double acceleration;
     private String description;
+    private String plate;
 
     public Car() {
 
@@ -147,6 +148,14 @@ public class Car {
         this.description = description;
     }
 
+    public String getPlate(){
+        return this.plate;
+    }
+
+    public void setPlate(String plate){
+        this.plate = plate;
+    }
+
     @Override
     public String toString() {
         return "Car{" +
@@ -165,6 +174,7 @@ public class Car {
                 ", consume='" + consume + '\'' +
                 ", acceleration='" + acceleration + '\'' +
                 ", description='" + description + '\'' +
+                ", plate='" + plate + '\'' +
                 '}';
     }
 }

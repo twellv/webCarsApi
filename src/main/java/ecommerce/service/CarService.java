@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class CarService {
-    public static boolean TEST_ENVIRONMENT = false;
+    public static boolean TEST_ENVIRONMENT = true;
 
     public HashMap<Car, Boolean> create(Car carJSON) {
         Car car;
@@ -31,6 +31,7 @@ public class CarService {
                 car.setConsume(carJSON.getConsume());
                 car.setAcceleration(carJSON.getAcceleration());
                 car.setDescription(carJSON.getDescription());
+                car.setPlate(carJSON.getPlate());
                 map = carDAO.createCar(car);
             }
 
@@ -58,6 +59,7 @@ public class CarService {
             cr1.setConsume(c.getConsume());
             cr1.setAcceleration(c.getAcceleration());
             cr1.setDescription(c.getDescription());
+            cr1.setPlate(c.getPlate());
             carResponseList.add(cr1);
         }
         return carResponseList;

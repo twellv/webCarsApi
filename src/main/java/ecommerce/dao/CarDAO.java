@@ -22,10 +22,11 @@ public class CarDAO {
             try(Connection connection = Connector.connect_test_env();
                 PreparedStatement preparedStatement = connection.prepareStatement
                     ("INSERT INTO car"
-                            + "(manufacturer, model)"
-                            + "VALUES (?, ?);")) {
+                            + "(manufacturer, model, plate)"
+                            + "VALUES (?, ?, ?);")) {
                 preparedStatement.setString(1, car.getManufacturer());
                 preparedStatement.setString(2, car.getModel());
+                preparedStatement.setString(3, car.getPlate());
 
                 int i = preparedStatement.executeUpdate();
                 if (i > 0) {
@@ -71,7 +72,7 @@ public class CarDAO {
 
         if(CarService.TEST_ENVIRONMENT){
             try (Connection connection = Connector.connect_test_env();
-                 PreparedStatement preparedStatement = connection.prepareStatement("SELECT id, manufacturer, model FROM car");
+                 PreparedStatement preparedStatement = connection.prepareStatement("SELECT id, manufacturer, model, plate FROM car");
                  ResultSet resultSet = preparedStatement.executeQuery()) {
 
                 while (resultSet.next()) {
@@ -79,6 +80,7 @@ public class CarDAO {
                     car.setId(resultSet.getLong("id"));
                     car.setManufacturer(resultSet.getString("manufacturer"));
                     car.setModel(resultSet.getString("model"));
+                    car.setPlate(resultSet.getString("plate"));
                     carsList.add(car);
                 }
             } catch(SQLException ex) {

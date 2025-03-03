@@ -40,6 +40,9 @@ public class CarController {
     public ResponseEntity<List<Car>> carsList() {
         List<Car> list = carService.listAll();
 
+        System.out.println("Lista de carros vinda do BD:");
+        list.stream().forEach(c -> System.out.println(list));
+
         return (list == null || list.isEmpty() )?
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build():
             ResponseEntity.status(HttpStatus.OK).body(list);
