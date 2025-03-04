@@ -60,11 +60,53 @@ public class CarDAO {
                 if (i > 0) {
                     map.put(readCarById(getMaxId()), true);
                 }
-            } catch (SQLException ex) {
-                Logger.sendError("Error in createCar method:"+ex.getMessage());
+            } catch (SQLException e) {
+                Logger.sendError("Error in createCar method:"+e.getMessage());
             }
         }
         return map;
+    }
+
+    public List<Car> findPaginated(int offset, int limit){
+        String sql = "SELECT * FROM car LIMIT ? OFFSET ?";
+
+        try(
+                Connection connection = Connector.connect_test_env();
+                PreparedStatement preparedStatement = connection.prepareStatement(sql)
+        ){
+            preparedStatement.setInt(1, limit);
+            preparedStatement.setInt(2, offset);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            List<Car> carList = new ArrayList<>();
+            while (resultSet.next()){
+                Car car = new Car();
+                car.setId(resultSet.getLong("id"));
+                car.setManufacturer(resultSet.getString("manufacturer"));
+                car.setModel(resultSet.getString("model"));
+                car.setPlate(resultSet.getString("plate"));
+                carList.add(car);
+            }
+            return carList;
+        } catch (SQLException e) {
+            throw new RuntimeException("Was not possible to find the paginated item", e);
+        }
+
+    }
+
+    public int countItems() {
+        String sql = "SELECT COUNT(*) FROM car";
+        try (Connection connection = Connector.connect_test_env();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+            return 0;
+        } catch (SQLException e) {
+            throw new RuntimeException("Was not possible to count the itens", e);
+        }
     }
 
     public List<Car> listAll(){
@@ -110,8 +152,8 @@ public class CarDAO {
                     car.setDescription(resultSet.getString("description"));
                     carsList.add(car);
                 }
-            } catch(SQLException ex) {
-                Logger.sendError("Error in listAll method:"+ex.getMessage());
+            } catch(SQLException e) {
+                Logger.sendError("Error in listAll method:"+e.getMessage());
             }
         }
         return carsList;
@@ -159,8 +201,8 @@ public class CarDAO {
                     car.setAcceleration(resultSet.getDouble("acceleration"));
                     car.setDescription(resultSet.getString("description"));
                 }
-            } catch (Exception ex) {
-                Logger.sendError("Error in readCarById method:"+ex.getMessage());
+            } catch (Exception e) {
+                Logger.sendError("Error in readCarById method:"+e.getMessage());
             }
         }
         return car;
@@ -178,8 +220,8 @@ public class CarDAO {
              ResultSet resultSet = preparedStatement.executeQuery()){
 
             while(resultSet.next()) id = resultSet.getLong("id");
-        } catch (SQLException ex) {
-            Logger.sendError("Error in getMaxId method: " + ex.getMessage());
+        } catch (SQLException e) {
+            Logger.sendError("Error in getMaxId method: " + e.getMessage());
         }
         return id;
     }
@@ -201,8 +243,8 @@ public class CarDAO {
                 isUpdated = rowsAffected > 0;
 
                 preparedStatement.close();
-            } catch (SQLException ex){
-                Logger.sendError("Error in update method:"+ex.getMessage());
+            } catch (SQLException e){
+                Logger.sendError("Error in update method:"+e.getMessage());
             }
         } else {
             try (Connection connection = Connector.connect();
@@ -241,8 +283,8 @@ public class CarDAO {
                 int rowsAffected = preparedStatement.executeUpdate();
                 isUpdated = rowsAffected > 0;
 
-            } catch (SQLException ex) {
-                Logger.sendError("Error in update method:"+ex.getMessage());
+            } catch (SQLException e) {
+                Logger.sendError("Error in update method:"+e.getMessage());
             }
         }
         return isUpdated;
@@ -270,8 +312,8 @@ public class CarDAO {
                 int rowsAffected = preparedStatement.executeUpdate();
                 isDeleted = rowsAffected > 0;
 
-            } catch(Exception ex) {
-                Logger.sendError("Error in delete method:"+ex.getMessage());
+            } catch(Exception e) {
+                Logger.sendError("Error in delete method:"+e.getMessage());
             }
         }
 

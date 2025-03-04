@@ -2,6 +2,7 @@ package ecommerce.controller;
 
 import ecommerce.model.Car;
 import ecommerce.service.CarService;
+import ecommerce.util.PaginatedResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -75,5 +76,12 @@ public class CarController {
                 ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @GetMapping("/pagination")
+    public PaginatedResponse<Car> getICars(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        return carService.getItems(page, size);
+    }
 
 }

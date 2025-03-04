@@ -2,6 +2,7 @@ package ecommerce.service;
 
 import ecommerce.dao.CarDAO;
 import ecommerce.model.Car;
+import ecommerce.util.PaginatedResponse;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import java.util.List;
 
 public class CarService {
     public static boolean TEST_ENVIRONMENT = true;
+    CarDAO carDAO = new CarDAO();
 
     public HashMap<Car, Boolean> create(Car carJSON) {
         Car car;
@@ -36,6 +38,13 @@ public class CarService {
             }
 
         return map;
+    }
+
+    public PaginatedResponse<Car> getItems(int page, int size) {
+        int offset = page * size;
+        List<Car> cars = carDAO.findPaginated(offset, size);
+        int totalItems = carDAO.countItems();
+        return new PaginatedResponse<>(cars, totalItems, page, size);
     }
 
     public List<Car> listAll() {
