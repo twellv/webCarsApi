@@ -51,7 +51,7 @@ public class ImageDAO {
                     img.setUrl(url);
                 }
             }
-        }catch (SQLException ex) {ex.printStackTrace();}
+        }catch (SQLException e) {e.printStackTrace();}
         return img;
     }
 
@@ -73,8 +73,8 @@ public class ImageDAO {
                     imgList.add(img);
                 }
             }
-        } catch (SQLException ex){
-            ex.printStackTrace();
+        } catch (SQLException e){
+            e.printStackTrace();
         }
         return imgList;
     }
