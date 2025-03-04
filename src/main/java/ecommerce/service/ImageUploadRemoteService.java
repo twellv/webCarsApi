@@ -6,6 +6,7 @@ import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
@@ -43,7 +44,7 @@ public class ImageUploadRemoteService {
             Map resource = cloudinary.api().resource(publicId, params);
             String imageUrl = (String) resource.get("url");
 
-            if(uploadDatabase.saveImageInfoDatabase(tittle, alttext, imageUrl)){
+            if(uploadDatabase.saveImageDatabaseService(tittle, alttext, imageUrl)){
                 System.out.println("image was saved.");
             } else {System.out.println("image was NOT saved.");}
 

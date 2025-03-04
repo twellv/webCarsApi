@@ -36,7 +36,6 @@ public class CarService {
                 car.setPlate(carJSON.getPlate());
                 map = carDAO.createCar(car);
             }
-
         return map;
     }
 
