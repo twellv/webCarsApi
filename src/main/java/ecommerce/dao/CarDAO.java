@@ -165,7 +165,7 @@ public class CarDAO {
         if(CarService.TEST_ENVIRONMENT){
             try(Connection connection = Connector.connect_test_env();
                 PreparedStatement preparedStatement = connection.prepareStatement
-                    ("SELECT id, manufacturer, model FROM car WHERE car.id = '"+id+"';");
+                    ("SELECT id, manufacturer, model, plate FROM car WHERE car.id = '"+id+"';");
                 ResultSet resultSet = preparedStatement.executeQuery()){
 
                 if(resultSet.next()) {
@@ -173,6 +173,7 @@ public class CarDAO {
                     car.setId(resultSet.getLong("id"));
                     car.setManufacturer(resultSet.getString("manufacturer"));
                     car.setModel(resultSet.getString("model"));
+                    car.setPlate(resultSet.getString("plate"));
                 }
             }catch(SQLException ex) {
                 Logger.sendError("Error in readCarById method:"+ex.getMessage());

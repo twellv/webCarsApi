@@ -1,22 +1,18 @@
 package ecommerce.dao;
 
-import ecommerce.model.Car;
 import ecommerce.model.Image;
-import ecommerce.service.CarService;
 import ecommerce.util.Logger;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class ImageDAO {
 
-    public Boolean saveImageInfoDAO(String tittle, String alttext, String url) {
+    public Boolean saveImageDAO(String tittle, String alttext, String url) {
         Boolean isSaved = false;
 
             try(Connection connection = Connector.connect_test_env();
@@ -27,14 +23,16 @@ public class ImageDAO {
                 preparedStatement.setString(1, tittle);
                 preparedStatement.setString(2, alttext);
                 preparedStatement.setString(3, url);
-                isSaved = preparedStatement.execute();
-            } catch (SQLException ex) {
-                Logger.sendError("Error in upload method:"+ex.getMessage());
+                int rowsAffected = preparedStatement.executeUpdate();
+                isSaved = rowsAffected > 0;
+            } catch (SQLException e) {
+                Logger.sendError("Error in upload DAO:"+e.getMessage());
             }
+        System.out.println("Boolean in DAO method");
         return isSaved;
     }
 
-    public Image getImageInfoDAO(String url){
+    public Image getImageDAO(String url){
         Image img = null;
 
         try(
@@ -77,6 +75,10 @@ public class ImageDAO {
             e.printStackTrace();
         }
         return imgList;
+    }
+
+    public void updateImageDAO(){
+        // resgatar uma imagem {metodo get através da URL?}
     }
 
 }
