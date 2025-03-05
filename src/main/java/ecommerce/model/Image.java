@@ -38,4 +38,13 @@ public class Image {
         this.url = url;
     }
 
+    @Override
+    public String toString() {
+        return "Image{" +
+                "id=" + id +
+                ", tittle='" + tittle + '\'' +
+                ", alttext='" + alttext + '\'' +
+                ", url='" + url + '\'' +
+                '}';
+    }
 }

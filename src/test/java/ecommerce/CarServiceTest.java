@@ -1,5 +1,6 @@
 package ecommerce;
 
+import ecommerce.dao.CarDAO;
 import ecommerce.dao.Connector;
 import ecommerce.service.CarService;
 import ecommerce.model.Car;
@@ -16,8 +17,8 @@ import java.util.Map;
 
 
 class CarServiceTest {
-
-    CarService carService = new CarService();
+    CarDAO carDAO = new CarDAO();
+    CarService carService = new CarService(carDAO);
 
     @BeforeEach
     public void setUp() {

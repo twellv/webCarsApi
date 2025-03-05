@@ -3,6 +3,7 @@ package ecommerce.service;
 import ecommerce.dao.CarDAO;
 import ecommerce.model.Car;
 import ecommerce.util.PaginatedResponse;
+import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,7 +11,11 @@ import java.util.List;
 
 public class CarService {
     public static boolean TEST_ENVIRONMENT = true;
-    CarDAO carDAO = new CarDAO();
+    private CarDAO carDAO;
+
+    public CarService(CarDAO carDAO){
+        this.carDAO = carDAO;
+    }
 
     public HashMap<Car, Boolean> create(Car carJSON) {
         Car car;
@@ -19,21 +24,7 @@ public class CarService {
 
             if (carJSON != null) {
                 car = new Car();
-                car.setManufacturer(carJSON.getManufacturer());
-                car.setModel(carJSON.getModel());
-                car.setPrice(carJSON.getPrice());
-                car.setSpeed(carJSON.getSpeed());
-                car.setMaxspeed(carJSON.getMaxspeed());
-                car.setTransmission(carJSON.getTransmission());
-                car.setEngine(carJSON.getEngine());
-                car.setColor(carJSON.getColor());
-                car.setGearshift(carJSON.getGearshift());
-                car.setSeats(carJSON.getSeats());
-                car.setFuel(carJSON.getFuel());
-                car.setConsume(carJSON.getConsume());
-                car.setAcceleration(carJSON.getAcceleration());
-                car.setDescription(carJSON.getDescription());
-                car.setPlate(carJSON.getPlate());
+                BeanUtils.copyProperties(carJSON, car);
                 map = carDAO.createCar(car);
             }
         return map;
@@ -74,28 +65,15 @@ public class CarService {
     }
 
     public boolean update(Car car, long id) {
-        CarDAO carDAO = new CarDAO();
-        Car oldCar = new CarDAO().readCarById(id);
-        boolean isUpdated = false;
+        Car carFromDatabase = new CarDAO().readCarById(id);
 
-        if(oldCar != null) {
-            oldCar.setManufacturer(car.getManufacturer());
-            oldCar.setModel(car.getModel());
-            oldCar.setPrice(car.getPrice());
-            oldCar.setSpeed(car.getSpeed());
-            oldCar.setMaxspeed(car.getMaxspeed());
-            oldCar.setTransmission(car.getTransmission());
-            oldCar.setEngine(car.getEngine());
-            oldCar.setColor(car.getColor());
-            oldCar.setGearshift(car.getGearshift());
-            oldCar.setSeats(car.getSeats());
-            oldCar.setFuel(car.getFuel());
-            oldCar.setConsume(car.getConsume());
-            oldCar.setAcceleration(car.getAcceleration());
-            oldCar.setDescription(car.getDescription());
-            isUpdated = carDAO.update(oldCar);
+        if(carFromDatabase == null) {
+            return false;
         }
-        return isUpdated;
+
+        BeanUtils.copyProperties(car,carFromDatabase);
+
+        return carDAO.update(carFromDatabase);
     }
 
     public Car readById(long id){
