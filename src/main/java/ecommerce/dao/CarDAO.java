@@ -32,8 +32,8 @@ public class CarDAO {
                 if (i > 0) {
                     map.put(readCarById(getMaxId()), true);
                 }
-            } catch (SQLException ex) {
-                Logger.sendError("Error in createCar method:"+ex.getMessage());
+            } catch (SQLException e) {
+                Logger.sendError("Error in createCar method:"+e.getMessage());
             }
         } else {
             try (Connection connection = Connector.connect();
@@ -125,13 +125,15 @@ public class CarDAO {
                     car.setPlate(resultSet.getString("plate"));
                     carsList.add(car);
                 }
-            } catch(SQLException ex) {
-                Logger.sendError("Error in listAll method:"+ex.getMessage());
+            } catch(SQLException e) {
+                Logger.sendError("Error in listAll method:"+e.getMessage());
             }
         } else {
-            try (Connection connection = Connector.connect();
+            try (
+                Connection connection = Connector.connect();
                 PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM cars");
-                ResultSet resultSet = preparedStatement.executeQuery()) {
+                ResultSet resultSet = preparedStatement.executeQuery()
+            ) {
 
                 while (resultSet.next()) {
                     Car car = new Car();
@@ -165,8 +167,10 @@ public class CarDAO {
         if(CarService.TEST_ENVIRONMENT){
             try(Connection connection = Connector.connect_test_env();
                 PreparedStatement preparedStatement = connection.prepareStatement
-                    ("SELECT id, manufacturer, model, plate FROM car WHERE car.id = '"+id+"';");
-                ResultSet resultSet = preparedStatement.executeQuery()){
+                    ("SELECT id, manufacturer, model, plate FROM car WHERE id = ?;");
+                ResultSet resultSet = preparedStatement.executeQuery()
+            ){
+                preparedStatement.setLong(1, id);
 
                 if(resultSet.next()) {
                     car = new Car();
@@ -175,15 +179,17 @@ public class CarDAO {
                     car.setModel(resultSet.getString("model"));
                     car.setPlate(resultSet.getString("plate"));
                 }
-            }catch(SQLException ex) {
-                Logger.sendError("Error in readCarById method:"+ex.getMessage());
+            }catch(SQLException e) {
+                Logger.sendError("Error in readCarById method:"+e.getMessage());
             }
         }else{
-            try(Connection connection = Connector.connect();
-                    PreparedStatement preparedStatement = connection.prepareStatement
-                    ("SELECT * FROM cars WHERE cars.id = '"+id+"';");
-                    ResultSet resultSet = preparedStatement.executeQuery()){
-
+            try(
+                Connection connection = Connector.connect();
+                PreparedStatement preparedStatement = connection.prepareStatement
+                    ("SELECT * FROM car WHERE id = ?;");
+                ResultSet resultSet = preparedStatement.executeQuery()
+            ){
+                preparedStatement.setLong(1, id);
                 if(resultSet.next()) {
                     car = new Car();
                     car.setId(resultSet.getLong("id"));
@@ -213,13 +219,13 @@ public class CarDAO {
         String query = CarService.TEST_ENVIRONMENT?
                 "SELECT id FROM car WHERE id=(SELECT max(id) FROM car);":
                 "SELECT id FROM cars WHERE id=(SELECT max(id) FROM cars);";
-
         long id = 0;
 
-        try (Connection connection = CarService.TEST_ENVIRONMENT?Connector.connect_test_env():Connector.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(query);
-             ResultSet resultSet = preparedStatement.executeQuery()){
-
+        try (
+            Connection connection = CarService.TEST_ENVIRONMENT?Connector.connect_test_env():Connector.connect();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery()
+        ){
             while(resultSet.next()) id = resultSet.getLong("id");
         } catch (SQLException e) {
             Logger.sendError("Error in getMaxId method: " + e.getMessage());
@@ -231,41 +237,41 @@ public class CarDAO {
         boolean isUpdated = false;
 
         if(CarService.TEST_ENVIRONMENT){
-            try(Connection connection = Connector.connect_test_env()){
+            try(
+                Connection connection = Connector.connect_test_env();
                 PreparedStatement preparedStatement = connection.prepareStatement(
-                        "UPDATE car SET "
-                                +"manufacturer = ?, "
-                                +"model = ? "
-                                +"WHERE id = "+car.getId()+";");
+                    "UPDATE car SET "
+                    +"manufacturer = ?, "
+                    +"model = ? "
+                    +"WHERE id = ?;")
+            ){
                 preparedStatement.setString(1, car.getManufacturer());
                 preparedStatement.setString(2, car.getModel());
+                preparedStatement.setLong(3, car.getId());
 
                 int rowsAffected = preparedStatement.executeUpdate();
                 isUpdated = rowsAffected > 0;
 
-                preparedStatement.close();
-            } catch (SQLException e){
-                Logger.sendError("Error in update method:"+e.getMessage());
-            }
+            } catch (SQLException e){Logger.sendError("Error in update method:"+e.getMessage());}
         } else {
             try (Connection connection = Connector.connect();
                 PreparedStatement preparedStatement = connection.prepareStatement(
-                    "UPDATE cars SET "
-                            +"manufacturer = ?, "
-                            +"model = ?, "
-                            +"price = ?, "
-                            +"speed = ?, "
-                            +"maxspeed = ?, "
-                            +"transmission = ?, "
-                            +"engine = ?, "
-                            +"color = ?, "
-                            +"gearshift = ?, "
-                            +"seats = ?, "
-                            +"fuel = ?, "
-                            +"consume = ?, "
-                            +"acceleration = ?, "
-                            +"description = ? "
-                            +"WHERE id = "+car.getId()+";")){
+                "UPDATE cars SET "
+                        +"manufacturer = ?, "
+                        +"model = ?, "
+                        +"price = ?, "
+                        +"speed = ?, "
+                        +"maxspeed = ?, "
+                        +"transmission = ?, "
+                        +"engine = ?, "
+                        +"color = ?, "
+                        +"gearshift = ?, "
+                        +"seats = ?, "
+                        +"fuel = ?, "
+                        +"consume = ?, "
+                        +"acceleration = ?, "
+                        +"description = ? "
+                        +"WHERE id = ?;")){
                 preparedStatement.setString(1, car.getManufacturer());
                 preparedStatement.setString(2, car.getModel());
                 preparedStatement.setDouble(3, car.getPrice());
@@ -280,6 +286,8 @@ public class CarDAO {
                 preparedStatement.setString(12, car.getConsume());
                 preparedStatement.setDouble(13, car.getAcceleration());
                 preparedStatement.setString(14, car.getDescription());
+                preparedStatement.setLong(15, car.getId()
+            );
 
                 int rowsAffected = preparedStatement.executeUpdate();
                 isUpdated = rowsAffected > 0;
@@ -297,7 +305,9 @@ public class CarDAO {
         if(CarService.TEST_ENVIRONMENT){
             try(Connection connection = Connector.connect_test_env();
                 PreparedStatement preparedStatement = connection.prepareStatement
-                        ("DELETE FROM car WHERE id = '"+id+"';")){
+                        ("DELETE FROM car WHERE id = ?;")
+            ){
+                preparedStatement.setLong(1, id);
 
                 int rowsAffected = preparedStatement.executeUpdate();
                 isDeleted = rowsAffected > 0;
@@ -306,9 +316,12 @@ public class CarDAO {
                 System.err.println(ex.getMessage());
             }
         } else {
-            try(Connection connection = Connector.connect();
+            try(
+                Connection connection = Connector.connect();
                 PreparedStatement preparedStatement = connection.prepareStatement(
-                    "DELETE FROM cars WHERE id = '"+id+"';")){
+                    "DELETE FROM cars WHERE id = ?;")
+            ){
+                preparedStatement.setLong(1, id);
 
                 int rowsAffected = preparedStatement.executeUpdate();
                 isDeleted = rowsAffected > 0;

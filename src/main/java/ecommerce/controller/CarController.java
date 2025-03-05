@@ -1,5 +1,6 @@
 package ecommerce.controller;
 
+import ecommerce.dao.CarDAO;
 import ecommerce.model.Car;
 import ecommerce.service.CarService;
 import ecommerce.util.PaginatedResponse;
@@ -15,7 +16,8 @@ import java.util.Map;
 @RequestMapping("/cars")
 public class CarController {
 
-    CarService carService = new CarService();
+    CarDAO carDAO = new CarDAO();
+    CarService carService = new CarService(carDAO);
 
     @PostMapping("/add")
     public ResponseEntity<Car> addCar(@RequestBody Car car) {

@@ -38,12 +38,13 @@ public class ImageDAO {
         try(
             Connection connection = Connector.connect_test_env();
             PreparedStatement preparedStatement = connection.prepareStatement(
-            "SELECT tittle, alttext, url FROM image WHERE url = ?;");
+            "SELECT id, tittle, alttext, url FROM image WHERE url = ?;");
         ){
             preparedStatement.setString(1, url);
             try(ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     img = new Image();
+                    img.setId(resultSet.getLong("id"));
                     img.setTittle(resultSet.getString("tittle"));
                     img.setAlttext(resultSet.getString("alttext"));
                     img.setUrl(url);
@@ -77,8 +78,26 @@ public class ImageDAO {
         return imgList;
     }
 
-    public void updateImageDAO(){
-        // resgatar uma imagem {metodo get através da URL?}
+    public boolean updateImageDAO(String tittle, String alttext, String url){
+        Image img = getImageDAO(url);
+        boolean isUpdated = false;
+        String sql = "UPDATE image SET tittle = ?, alttext = ? WHERE url = ?";
+
+        try(
+            Connection connection = Connector.connect_test_env();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql)
+        ){
+            preparedStatement.setString(1, tittle);
+            preparedStatement.setString(2, alttext);
+            preparedStatement.setString(3, url);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            isUpdated = rowsAffected > 0;
+
+        } catch (SQLException e){
+            Logger.sendError("Error in update method:"+e.getMessage());
+        }
+        return isUpdated;
     }
 
 }
